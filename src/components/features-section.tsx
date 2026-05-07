@@ -1,53 +1,55 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import Icon from "@/components/ui/icon"
 
 const features = [
   {
-    title: "Адаптивная нейрообработка",
-    description: "Самооптимизирующиеся алгоритмы, которые обучаются на нейронных паттернах и улучшают интерпретацию сигналов.",
-    icon: "brain",
-    badge: "ИИ",
+    title: "Отопление и котельные",
+    description: "Проектирование и монтаж систем отопления любой сложности: от квартиры до промышленного объекта. Котельные под ключ.",
+    icon: "Flame",
+    badge: "Популярно",
   },
   {
-    title: "Медицинская защита",
-    description: "Шифрование по стандартам FDA со сквозной защитой конфиденциальных нейронных данных.",
-    icon: "lock",
-    badge: "Сертификат",
+    title: "Вентиляция и кондиционирование",
+    description: "Приточно-вытяжные системы, рекуперация, мультизональные кондиционеры для комфортного микроклимата.",
+    icon: "Wind",
+    badge: "Эффективно",
   },
   {
-    title: "Интуитивное управление",
-    description: "Естественная трансляция мыслей в действия с откликом менее миллисекунды и точностью 99,7%.",
-    icon: "globe",
-    badge: "Точность",
+    title: "Водоснабжение и канализация",
+    description: "Полный цикл монтажа водопровода и канализации: от проекта до подключения. Работаем с любыми объёмами.",
+    icon: "Droplets",
+    badge: "Под ключ",
   },
   {
-    title: "Предиктивная калибровка",
-    description: "ML-модели, которые предугадывают намерения пользователя и оптимизируют нейронные пути.",
-    icon: "zap",
-    badge: "Умный",
+    title: "Тёплые полы",
+    description: "Водяные и электрические тёплые полы с умным управлением. Равномерный прогрев и экономия до 30% на отоплении.",
+    icon: "Layers",
+    badge: "Комфорт",
   },
   {
-    title: "Биометрическая интеграция",
-    description: "Бесшовная синхронизация с мониторингом жизненных показателей для контроля здоровья.",
-    icon: "link",
-    badge: "Связь",
+    title: "Умный дом",
+    description: "Автоматизация инженерных систем: управление климатом, освещением и безопасностью со смартфона.",
+    icon: "Smartphone",
+    badge: "Smart",
   },
   {
-    title: "Поддержка XR",
-    description: "Нативная совместимость с AR/VR-средами для терапевтических и рабочих приложений.",
-    icon: "target",
-    badge: "XR Ready",
+    title: "Проектирование",
+    description: "Разработка полного пакета проектной документации, BIM-моделирование, согласование с надзорными органами.",
+    icon: "FileText",
+    badge: "Документы",
   },
 ]
 
 export function FeaturesSection() {
   return (
-    <section className="py-24 px-6 bg-background">
+    <section id="services" className="py-24 px-6 bg-background">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-foreground mb-4 font-sans">Возможности нового поколения</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Почувствуйте будущее с технологиями, которые переопределяют возможное
+          <span className="text-orange-500 text-sm font-geist uppercase tracking-widest font-semibold">Наши направления</span>
+          <h2 className="text-4xl font-bold text-foreground mb-4 font-orbitron mt-3">Полный спектр инженерных систем</h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-geist">
+            Проектируем и монтируем все инженерные системы вашего объекта — в Крыму и Севастополе
           </p>
         </div>
 
@@ -55,27 +57,22 @@ export function FeaturesSection() {
           {features.map((feature, index) => (
             <Card
               key={index}
-              className="glow-border hover:shadow-lg transition-all duration-300 slide-up"
+              className="glow-border hover:shadow-lg transition-all duration-300 slide-up hover:border-orange-500/40 cursor-pointer group"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-3xl">
-                    {feature.icon === "brain" && "&#129504;"}
-                    {feature.icon === "lock" && "&#128274;"}
-                    {feature.icon === "globe" && "&#127760;"}
-                    {feature.icon === "zap" && "&#9889;"}
-                    {feature.icon === "link" && "&#128279;"}
-                    {feature.icon === "target" && "&#127919;"}
-                  </span>
-                  <Badge variant="secondary" className="bg-accent text-accent-foreground">
+                  <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
+                    <Icon name={feature.icon} size={24} className="text-orange-500" fallback="Zap" />
+                  </div>
+                  <Badge variant="secondary" className="bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs">
                     {feature.badge}
                   </Badge>
                 </div>
-                <CardTitle className="text-xl font-bold text-card-foreground">{feature.title}</CardTitle>
+                <CardTitle className="text-xl font-bold text-card-foreground font-geist">{feature.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-muted-foreground leading-relaxed">
+                <CardDescription className="text-muted-foreground leading-relaxed font-geist">
                   {feature.description}
                 </CardDescription>
               </CardContent>

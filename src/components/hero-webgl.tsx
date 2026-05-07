@@ -2,6 +2,7 @@ import { Canvas, extend, useFrame } from "@react-three/fiber"
 import { useAspect, useTexture } from "@react-three/drei"
 import { useMemo, useRef, useState, useEffect } from "react"
 import * as THREE from "three"
+import { Button } from "@/components/ui/button"
 
 const TEXTUREMAP = { src: "https://i.postimg.cc/XYwvXN8D/img-4.png" }
 const DEPTHMAP = { src: "https://i.postimg.cc/2SHKQh2q/raw-4.webp" }
@@ -32,7 +33,6 @@ const Scene = () => {
       uniform float uTime;
       varying vec2 vUv;
 
-      // Simple noise function
       float random(vec2 st) {
         return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
       }
@@ -51,15 +51,12 @@ const Scene = () => {
       void main() {
         vec2 uv = vUv;
 
-        // Depth-based displacement
         float depth = texture2D(uDepthMap, uv).r;
         vec2 displacement = depth * uPointer * 0.01;
         vec2 distortedUv = uv + displacement;
 
-        // Base texture
         vec4 baseColor = texture2D(uTexture, distortedUv);
 
-        // Create scanning effect
         float aspect = ${WIDTH}.0 / ${HEIGHT}.0;
         vec2 tUv = vec2(uv.x * aspect, uv.y);
         vec2 tiling = vec2(120.0);
@@ -69,14 +66,12 @@ const Scene = () => {
         float dist = length(tiledUv);
         float dot = smoothstep(0.5, 0.49, dist) * brightness;
 
-        // Flow effect based on progress
         float flow = 1.0 - smoothstep(0.0, 0.02, abs(depth - uProgress));
 
-        // Red scanning overlay
-        vec3 mask = vec3(dot * flow * 10.0, 0.0, 0.0);
+        vec3 mask = vec3(dot * flow * 10.0 * 0.7, dot * flow * 10.0 * 0.35, 0.0);
 
-        // Combine effects
-        vec3 final = baseColor.rgb + mask;
+        vec3 tint = vec3(0.08, 0.12, 0.22);
+        vec3 final = mix(baseColor.rgb * tint * 2.5 + mask, baseColor.rgb, 0.3);
 
         gl_FragColor = vec4(final, 1.0);
       }
@@ -114,10 +109,11 @@ const Scene = () => {
 }
 
 export const Hero3DWebGL = () => {
-  const titleWords = "Synapse AI".split(" ")
-  const subtitle = "Нейроинтерфейсы нового поколения."
+  const titleWords = "SmartCom".split(" ")
+  const subtitle = "Умные инженерные системы для вашего дома в Крыму"
   const [visibleWords, setVisibleWords] = useState(0)
   const [subtitleVisible, setSubtitleVisible] = useState(false)
+  const [buttonsVisible, setButtonsVisible] = useState(false)
   const [delays, setDelays] = useState<number[]>([])
   const [subtitleDelay, setSubtitleDelay] = useState(0)
 
@@ -136,18 +132,35 @@ export const Hero3DWebGL = () => {
     }
   }, [visibleWords, titleWords.length])
 
+  useEffect(() => {
+    if (subtitleVisible) {
+      const timeout = setTimeout(() => setButtonsVisible(true), 600)
+      return () => clearTimeout(timeout)
+    }
+  }, [subtitleVisible])
+
   return (
-    <div className="h-screen bg-black relative overflow-hidden">
+    <div className="h-screen bg-[hsl(220,25%,6%)] relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none z-10">
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
-        <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-black to-transparent" />
-        <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-black to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[hsl(220,25%,6%)] to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[hsl(220,25%,6%)] to-transparent" />
+        <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-[hsl(220,25%,6%)] to-transparent" />
+        <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-[hsl(220,25%,6%)] to-transparent" />
       </div>
 
-      <div className="h-screen uppercase items-center w-full absolute z-[60] pointer-events-none px-10 flex justify-center flex-col">
-        <div className="text-3xl md:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold font-orbitron">
-          <div className="flex space-x-2 lg:space-x-6 overflow-hidden text-white">
+      {/* Accent overlay */}
+      <div className="absolute inset-0 z-[5] bg-gradient-to-br from-blue-900/30 via-transparent to-orange-900/20 pointer-events-none" />
+
+      <div className="h-screen items-center w-full absolute z-[60] pointer-events-none px-6 flex justify-center flex-col">
+        {/* Badge */}
+        <div className={`mb-6 ${subtitleVisible ? 'fade-in' : ''}`} style={{ opacity: subtitleVisible ? undefined : 0 }}>
+          <span className="bg-orange-500/20 border border-orange-500/40 text-orange-400 text-xs font-geist px-3 py-1 rounded-full uppercase tracking-wider">
+            Крым · Инженерные системы под ключ
+          </span>
+        </div>
+
+        <div className="text-3xl md:text-6xl xl:text-7xl 2xl:text-8xl font-extrabold font-orbitron text-center">
+          <div className="flex space-x-2 lg:space-x-6 overflow-hidden text-white justify-center">
             {titleWords.map((word, index) => (
               <div
                 key={index}
@@ -157,12 +170,15 @@ export const Hero3DWebGL = () => {
                   opacity: index < visibleWords ? undefined : 0,
                 }}
               >
-                {word}
+                {index === 0 ? (
+                  <>Smart<span className="text-orange-500">Com</span></>
+                ) : word}
               </div>
             ))}
           </div>
         </div>
-        <div className="text-xs md:text-xl xl:text-2xl 2xl:text-3xl mt-2 overflow-hidden text-white font-bold max-w-4xl mx-auto text-center px-4">
+
+        <div className="text-sm md:text-xl xl:text-2xl mt-4 overflow-hidden text-white/80 font-geist font-medium max-w-3xl mx-auto text-center px-4">
           <div
             className={subtitleVisible ? "fade-in-subtitle" : ""}
             style={{
@@ -172,6 +188,47 @@ export const Hero3DWebGL = () => {
           >
             {subtitle}
           </div>
+        </div>
+
+        <div className="text-xs md:text-base mt-3 overflow-hidden text-white/50 font-geist max-w-2xl mx-auto text-center px-4">
+          <div
+            className={subtitleVisible ? "fade-in-subtitle" : ""}
+            style={{
+              animationDelay: `${titleWords.length * 0.13 + 0.5 + subtitleDelay}s`,
+              opacity: subtitleVisible ? undefined : 0,
+            }}
+          >
+            Проектирование и монтаж: отопление, вентиляция, водоснабжение, котельные, умный дом
+          </div>
+        </div>
+
+        <div
+          className={`mt-8 flex flex-col sm:flex-row gap-4 pointer-events-auto ${buttonsVisible ? 'fade-in-subtitle' : ''}`}
+          style={{ opacity: buttonsVisible ? undefined : 0 }}
+        >
+          <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white font-geist border-0 text-base px-8 py-3 pulse-button">
+            Рассчитать стоимость проекта
+          </Button>
+          <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:text-white font-geist text-base px-8 py-3 bg-transparent">
+            Стать партнёром
+          </Button>
+        </div>
+
+        {/* Stats */}
+        <div
+          className={`mt-12 flex gap-8 md:gap-16 pointer-events-none ${buttonsVisible ? 'fade-in-subtitle' : ''}`}
+          style={{ opacity: buttonsVisible ? undefined : 0, animationDelay: '0.3s' }}
+        >
+          {[
+            { value: "9+", label: "лет опыта" },
+            { value: "350+", label: "объектов" },
+            { value: "100%", label: "гарантия" },
+          ].map((stat, i) => (
+            <div key={i} className="text-center">
+              <div className="text-2xl md:text-3xl font-orbitron font-bold text-orange-400">{stat.value}</div>
+              <div className="text-xs md:text-sm text-white/50 font-geist mt-1">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -183,7 +240,7 @@ export const Hero3DWebGL = () => {
           powerPreference: "high-performance",
         }}
         camera={{ position: [0, 0, 1] }}
-        style={{ background: "#000000" }}
+        style={{ background: "hsl(220, 25%, 6%)" }}
       >
         <Scene />
       </Canvas>

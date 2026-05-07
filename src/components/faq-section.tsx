@@ -3,55 +3,56 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 export function FAQSection() {
   const faqs = [
     {
-      question: "Насколько безопасна процедура SynapseAI?",
+      question: "В каких городах Крыма вы работаете?",
       answer:
-        "Да, процедура выполняется прецизионным хирургическим роботом и прошла обширное тестирование. Все материалы биосовместимы и одобрены FDA для медицинского применения.",
+        "Работаем по всему Крыму: Симферополь, Севастополь, Ялта, Алушта, Евпатория, Феодосия, Керчь и все районы полуострова. Выезд инженера на объект бесплатный в радиусе 50 км от Симферополя.",
     },
     {
-      question: "Сколько длится операция?",
+      question: "Сколько стоит проект инженерных систем?",
       answer:
-        "Малоинвазивная процедура обычно занимает 2-3 часа и проводится под местной анестезией с седацией.",
+        "Стоимость проектирования зависит от площади объекта и перечня систем. В среднем — от 150 руб/м². Для получения точного расчёта оставьте заявку, инженер свяжется с вами в течение часа.",
     },
     {
-      question: "Можно ли удалить устройство?",
+      question: "Какие гарантии вы предоставляете?",
       answer:
-        "Да, SynapseAI разработан полностью обратимым. Устройство можно безопасно удалить при необходимости, хотя это требуется редко.",
+        "Предоставляем официальную гарантию 3 года на все виды монтажных работ. Гарантия фиксируется в договоре. После сдачи объекта доступно сервисное обслуживание и техническая поддержка.",
     },
     {
-      question: "Какие ощущения при использовании SynapseAI?",
+      question: "Как долго длится монтаж?",
       answer:
-        "Пользователи отмечают, что управление устройствами силой мысли ощущается естественно и интуитивно после короткого периода обучения. От самого импланта нет физических ощущений.",
+        "Сроки зависят от объёма работ. Инженерия частного дома 150–200 м² занимает в среднем 3–6 недель. Сроки обязательно фиксируются в договоре с неустойкой за нарушение.",
     },
     {
-      question: "Как долго работает батарея?",
+      question: "Можно ли заказать только проектирование без монтажа?",
       answer:
-        "Устройство заряжается беспроводным способом и работает полный день на одном заряде. Зарядка выполняется внешним устройством, размещаемым рядом с головой.",
+        "Да, мы разрабатываем проектную документацию как самостоятельную услугу. Вы получаете полный комплект чертежей, спецификацию оборудования и смету — для работы с любым подрядчиком.",
     },
     {
-      question: "Кто может получить SynapseAI?",
+      question: "Как стать партнёром экосистемы SmartCom?",
       answer:
-        "В настоящее время мы фокусируемся на людях с тяжелым параличом. Соответствие определяется через комплексную медицинскую оценку.",
+        "Заполните форму на странице партнёрства или позвоните нам. Мы работаем с архитекторами, дизайнерами, риелторами, застройщиками и генподрядчиками. Партнёры получают вознаграждение с каждого реализованного проекта.",
     },
   ]
 
   return (
-    <section className="py-24 bg-black">
+    <section id="faq" className="py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-orbitron">Частые вопросы</h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto font-space-mono">
-            Ответы на популярные вопросы о технологии SynapseAI, безопасности и опыте пациентов.
+          <span className="text-orange-500 text-sm font-geist uppercase tracking-widest font-semibold">FAQ</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-orbitron mt-3">Частые вопросы</h2>
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto font-geist">
+            Ответы на популярные вопросы о наших услугах, условиях работы и партнёрстве
           </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-red-500/20 mb-4">
-                <AccordionTrigger className="text-left text-lg font-semibold text-white hover:text-red-400 font-orbitron px-6 py-4">
+              <AccordionItem key={index} value={`item-${index}`} className="border-orange-500/20 mb-4">
+                <AccordionTrigger className="text-left text-lg font-semibold text-white hover:text-orange-400 font-geist px-6 py-4">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-300 leading-relaxed px-6 pb-4 font-space-mono">
+                <AccordionContent className="text-gray-300 leading-relaxed px-6 pb-4 font-geist">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
